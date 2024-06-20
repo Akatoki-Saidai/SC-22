@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<robot name="ForROS" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find ForROS_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find ForROS_description)/urdf/ForROS.trans" />
+<xacro:include filename="$(find ForROS_description)/urdf/ForROS.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="5.572504378017863e-05 -0.015851932170145397 0.07125177107353789" rpy="0 0 0"/>
+    <mass value="0.17026585721178622"/>
+    <inertia ixx="0.000291" iyy="0.000374" izz="0.000546" ixy="-0.0" iyz="-3.9e-05" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+

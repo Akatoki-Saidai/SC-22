@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<robot name="ForROS" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<transmission name="Revolute_Right_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="Revolute_Right">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="Revolute_Right_actr">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="Revolute_Left_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="Revolute_Left">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="Revolute_Left_actr">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="Revolute_Camera_tran">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="Revolute_Camera">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="Revolute_Camera_actr">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+</robot>
