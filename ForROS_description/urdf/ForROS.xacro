@@ -6,9 +6,9 @@
 <xacro:include filename="$(find ForROS_description)/urdf/ForROS.gazebo" />
 <link name="base_link">
   <inertial>
-    <origin xyz="0.000564797472491391 -0.011246499633265065 0.07155891863740409" rpy="0 0 0"/>
-    <mass value="0.21755670360441476"/>
-    <inertia ixx="0.000327" iyy="0.000389" izz="0.000594" ixy="-5e-06" iyz="-3.9e-05" ixz="-0.0"/>
+    <origin xyz="0.0004911783006626312 -0.009780351666287029 0.07183129641241766" rpy="0 0 0"/>
+    <mass value="0.25016474153306034"/>
+    <inertia ixx="0.000333" iyy="0.000517" izz="0.000726" ixy="-5e-06" iyz="-4e-05" ixz="-0.0"/>
   </inertial>
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -88,48 +88,6 @@
   </collision>
 </link>
 
-<link name="Wheel_Right_1">
-  <inertial>
-    <origin xyz="0.06691438531388375 -6.7374769110659946e-15 6.99685000174477e-07" rpy="0 0 0"/>
-    <mass value="2.7492313212350306"/>
-    <inertia ixx="0.007011" iyy="0.003825" izz="0.003825" ixy="-0.0" iyz="-0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="-0.0315 -0.0 -0.07365" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Right_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="-0.0315 -0.0 -0.07365" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Right_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
-<link name="Wheel_Left_1">
-  <inertial>
-    <origin xyz="-0.06691438531388355 -1.19718006253094e-14 -6.996850795554233e-07" rpy="0 0 0"/>
-    <mass value="2.74923132123507"/>
-    <inertia ixx="0.007011" iyy="0.003825" izz="0.003825" ixy="0.0" iyz="0.0" ixz="0.0"/>
-  </inertial>
-  <visual>
-    <origin xyz="0.0315 0.0 -0.07365" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Left_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <material name="silver"/>
-  </visual>
-  <collision>
-    <origin xyz="0.0315 0.0 -0.07365" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Left_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-  </collision>
-</link>
-
 <link name="Lidar_1">
   <inertial>
     <origin xyz="-0.005110778358159231 -0.0003774520654865679 0.014726243086830515" rpy="0 0 0"/>
@@ -151,6 +109,48 @@
   </collision>
 </link>
 
+<link name="Wheel_Right_1">
+  <inertial>
+    <origin xyz="0.00999999904632605 -4.0829913766993514e-16 -7.494005416219807e-16" rpy="0 0 0"/>
+    <mass value="2.628422918403861"/>
+    <inertia ixx="0.007003" iyy="0.003589" izz="0.003589" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0902 0.0 -0.07365" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Right_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0902 0.0 -0.07365" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Right_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Wheel_Left_1">
+  <inertial>
+    <origin xyz="-0.009999999046325717 -2.4446522753376495e-16 -4.579669976578771e-16" rpy="0 0 0"/>
+    <mass value="2.628422918403913"/>
+    <inertia ixx="0.007003" iyy="0.003589" izz="0.003589" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0902 -0.0 -0.07365" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Left_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0902 -0.0 -0.07365" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Wheel_Left_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
 <joint name="Rigid_Pi" type="fixed">
   <origin xyz="-0.019 0.0045 0.09885" rpy="0 0 0"/>
   <parent link="base_link"/>
@@ -163,24 +163,10 @@
   <child link="Camera_1"/>
 </joint>
 
-<joint name="Rigid 16" type="fixed">
+<joint name="Rigid_Battery" type="fixed">
   <origin xyz="0.0365 -0.037 0.07615" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Battery_v1_1_1"/>
-</joint>
-
-<joint name="Revolute_Right" type="continuous">
-  <origin xyz="0.0315 0.0 0.07365" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="Wheel_Right_1"/>
-  <axis xyz="-1.0 0.0 0.0"/>
-</joint>
-
-<joint name="Revolute_Left" type="continuous">
-  <origin xyz="-0.0315 0.0 0.07365" rpy="0 0 0"/>
-  <parent link="base_link"/>
-  <child link="Wheel_Left_1"/>
-  <axis xyz="1.0 0.0 0.0"/>
 </joint>
 
 <joint name="Revolute_Camera" type="continuous">
@@ -188,6 +174,20 @@
   <parent link="base_link"/>
   <child link="Lidar_1"/>
   <axis xyz="0.0 -0.0 -1.0"/>
+</joint>
+
+<joint name="Revolute_Right" type="continuous">
+  <origin xyz="0.0902 0.0 0.07365" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Wheel_Right_1"/>
+  <axis xyz="1.0 -0.0 -0.0"/>
+</joint>
+
+<joint name="Revolute_Left" type="continuous">
+  <origin xyz="-0.0902 0.0 0.07365" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Wheel_Left_1"/>
+  <axis xyz="-1.0 0.0 0.0"/>
 </joint>
 
 </robot>

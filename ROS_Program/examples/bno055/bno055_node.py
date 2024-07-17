@@ -3,21 +3,23 @@ from rclpy.node import Node
 from sensor_msgs.msg import IMU,MagneticField,Temperature
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 from geometry_msgs.msg import TransformStamped,Vector3
-from Adafruit_BNO055 import BNO055
-
+from bno055 import BNO055
+import time
 class Bno055Node(Node):
     def __init__(self):
         super().__init__('bno055_node')
         
-        self.bno = BNO055.BNO055(rst=18)
-
-        if not bno.begin():
-            raise RuntimeError('Failed to initialize BNO055! Is the sensor connected?')
+        self.bno = BNO055()
+        if self.bno.begin() is not True:
+            print("Error initializing device")
+            exit()
+        time.sleep(1)
+        self.bno.setExternalCrystalUse(True)
 
         transform_stamped = TransformStamped()
         transform_stamped.header.stamp = self.get_clock().now().to_msg()
         transform_stamped.header.frame_id = 'base_link'
-        transform_stamped.child_frame_id = 'bno055'
+        transform_stamped.child_frame_id = 'imu_link'
         transform_stamped.transform.translation.x = 0.0
         transform_stamped.transform.translation.y = 1.0
         transform_stamped.transform.translation.z = 1.0
@@ -40,27 +42,27 @@ class Bno055Node(Node):
         msg_mag = MagneticField()
         msg_ang = Vector3()
         msg_tmp = Temperature()
-        heading, roll, pitch = self.bno.read_euler()
+        heading, roll, pitch = self.bno.getVector(BNO055.VECTOR_EULER)
         #sys, gyro, accel, mag = bno.get_calibration_status() 
-        qx,qy,qz,qw = self.bno.read_quaterion()        
-        temp_c = self.bno.read_temp()        
-        mx,my,mz = self.bno.read_magnetometer()       
-        Gx,Gy,Gz = self.bno.read_gyroscope()       
-        #ax,ay,az = bno.read_accelerometer()       
-        lx,ly,lz = self.bno.read_linear_acceleration()        
-        #gx,gy,gz = bno.read_gravity()   
+        qx,qy,qz,qw = self.bno.getQuat()    
+        temp_c = self.bno.getTemp()        
+        mx,my,mz = self.bno.getVector(BNO055.VECTOR_MAGNETOMETER)   
+        Gx,Gy,Gz = self.bno.getVector(BNO055.VECTOR_GYROSCOPE)       
+        #ax,ay,az = self.bno.getVector(BNO055.VECTOR_ACCELEROMETER)       
+        lx,ly,lz = self.bno.getVector(BNO055.VECTOR_LINEARACCEL)        
+        #gx,gy,gz = self.bno.getVector(BNO055.VECTOR_GRAVITY)   
         msg_imu.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_imu.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_imu.header.frame_id = "bno055"
+        msg_imu.header.frame_id = "imu_link"
         msg_mag.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_mag.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_mag.header.frame_id = "bno055"
+        msg_mag.header.frame_id = "imu_link"
         msg_tmp.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_tmp.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_tmp.header.frame_id = "bno055"
+        msg_tmp.header.frame_id = "imu_link"
         msg_ang.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_ang.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_ang.header.frame_id = "bno055"
+        msg_ang.header.frame_id = "imu_link"
 
         msg_imu.orientation.x = qx
         msg_imu.orientation.y = qy

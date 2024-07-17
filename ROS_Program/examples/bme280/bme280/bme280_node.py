@@ -1,18 +1,13 @@
-from bme280 import bme280
-from bme280 import bme280_i2c
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import FluidPressure
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 from geometry_msgs.msg import TransformStamped
+from bme280py import BME280
 class Bme280Node(Node):
     def __init__(self):
         super().__init__('bme280_node')
-        # 初期化
-        bme280_i2c.set_default_i2c_address(0x76)
-        bme280_i2c.set_default_bus(1)
-        # キャリブレーション
-        bme280.setup()
+        self.bme = BME280()
         transform_stamped = TransformStamped()
         transform_stamped.header.stamp = self.get_clock().now().to_msg()
         transform_stamped.header.frame_id = 'base_link'
@@ -33,8 +28,11 @@ class Bme280Node(Node):
     def pressure_callback(self):
         # データ取得
         msg = FluidPressure()
-        data_all = bme280.read_all()
-        msg = data_all.pressure
+        msg.header.stamp.sec = self.get_clock().now().to_msg().sec
+        msg.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
+        msg.header.frame_id = "base_link"
+        data_all = self.bme.readData()
+        msg.fluid_pressure = data_all[1]
         self.publisher.publish(msg)
 def main(args=None):
     rclpy.init(args=args)
