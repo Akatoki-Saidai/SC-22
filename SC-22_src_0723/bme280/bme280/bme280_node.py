@@ -23,7 +23,7 @@ class Bme280Node(Node):
         broadcaster = StaticTransformBroadcaster(self)
         broadcaster.sendTransform(transform_stamped)
         """
-        self.publisher = self.create_publisher(FluidPressure, '/pressure', 10)
+        self.publisher = self.create_publisher(FluidPressure, '/pressure/data', 10)
         timer_period = 0.025  # seconds
         self.timer = self.create_timer(timer_period, self.pressure_callback)        
         

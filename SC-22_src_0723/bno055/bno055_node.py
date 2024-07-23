@@ -30,11 +30,11 @@ class Bno055Node(Node):
         broadcaster = StaticTransformBroadcaster(self)
         broadcaster.sendTransform(transform_stamped)
         """
-        self.publisher_imu = self.create_publisher(IMU, '/quat', 10)
-        self.publisher_mag = self.create_publisher(MagneticField, '/mag', 10)
+        self.publisher_imu = self.create_publisher(IMU, '/imu/data', 10)
+        self.publisher_mag = self.create_publisher(MagneticField, '/mag/data', 10)
         self.publisher_ang = self.create_publisher(Vector3,'/vec3',10)
-        self.publisher_temp = self.create_publisher(Temperature,'/temp',10)
-        self.publisher_pose = self.create_publisher(PoseStamped,'/pose',10)
+        #self.publisher_temp = self.create_publisher(Temperature,'/temp',10)
+        self.publisher_pose = self.create_publisher(PoseStamped,'/pose/data',10)
         timer_period = 0.025  # seconds
         self.timer = self.create_timer(timer_period, self.IMU_callback)        
         
@@ -44,7 +44,7 @@ class Bno055Node(Node):
         msg_imu = IMU()
         msg_mag = MagneticField()
         msg_ang = Vector3()
-        msg_tmp = Temperature()
+        #msg_tmp = Temperature()
         heading, roll, pitch = self.bno.getVector(BNO055.VECTOR_EULER)
         #sys, gyro, accel, mag = bno.get_calibration_status() 
         qx,qy,qz,qw = self.bno.getQuat()    
@@ -60,9 +60,9 @@ class Bno055Node(Node):
         msg_mag.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_mag.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
         msg_mag.header.frame_id = "base_link"
-        msg_tmp.header.stamp.sec = self.get_clock().now().to_msg().sec
-        msg_tmp.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_tmp.header.frame_id = "base_link"
+        #msg_tmp.header.stamp.sec = self.get_clock().now().to_msg().sec
+        #msg_tmp.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
+        #msg_tmp.header.frame_id = "base_link"
         msg_ang.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_ang.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
         msg_ang.header.frame_id = "base_link"
@@ -84,8 +84,8 @@ class Bno055Node(Node):
         msg_mag.magnetic_field.z = mz
         self.pub_mag.publish(msg_mag)
 
-        msg_tmp.temperature = temp_c
-        self.publisher_temp.publish(msg_tmp)
+        #msg_tmp.temperature = temp_c
+        #self.publisher_temp.publish(msg_tmp)
         
         msg_pose.header.frame_id = 'base_link'
         msg_pose.pose.orientation.x = qx

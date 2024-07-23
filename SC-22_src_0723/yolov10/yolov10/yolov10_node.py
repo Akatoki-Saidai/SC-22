@@ -12,9 +12,9 @@ class Yolov10Node(Node):
 
     def __init__(self):
         super().__init__('yolov10_node')
-        self.publisher = self.create_publisher(Image, '/image_annotated', 10)
-        self.publisher_xyxy = self.create_publisher(Int16, '/cone_position', 10)
-        self.subscriber = self.create_subscription(Image,'/image',self.process_yolov10,10)
+        self.publisher = self.create_publisher(Image, '/image_annotated/data', 10)
+        self.publisher_xyxy = self.create_publisher(Int16, '/cone_position/data', 10)
+        self.subscriber = self.create_subscription(Image,'/image/data',self.process_yolov10,10)
         self.model = YOLOv10("/home/konan/ros2_ws/src/yolov10/yolov10/best.pt")
         self.bridge = cv_bridge.CvBridge()
         self.cone_position = Int16()

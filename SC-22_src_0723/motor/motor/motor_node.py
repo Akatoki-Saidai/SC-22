@@ -6,10 +6,10 @@ class MotorNode(Node):
 
     def __init__(self):
         super().__init__('motor_node')
-        self.publisher_R = self.create_publisher(JointState, '/wheel_R', 10)
-        self.publisher_L = self.create_publisher(JointState, '/wheel_L', 10)
-        self.subscriber_wheel_R = Subscriber(self,Float32,'/vel_Wheel_R')
-        self.subscriber_wheel_L = Subscriber(self,Float32,'/vel_Wheel_L')
+        self.publisher_R = self.create_publisher(JointState, '/rwheel/data', 10)
+        self.publisher_L = self.create_publisher(JointState, '/lwheel/data', 10)
+        self.subscriber_wheel_R = Subscriber(self,Float32,'/rwheel/vel')
+        self.subscriber_wheel_L = Subscriber(self,Float32,'lwheel/vel')
         self.motor_R = DynamixelMotor(id_num=1)
         self.motor_L = DynamixelMotor(id_num=2)
         # ApproximateTimeSynchronizer with queue size 10 and 0.1 seconds slop
@@ -23,8 +23,8 @@ class MotorNode(Node):
         self.motor_L.velocity_control(vel_L.data)
         prevel_R = JointState()
         prevel_L = JointState()
-        prevel_R.header.frame_id = "wheel_R"
-        prevel_L.header.frame_id = "wheel_L"
+        prevel_R.header.frame_id = "r_joint"
+        prevel_L.header.frame_id = "l_joint"
         prevel_R.header.stamp.sec = self.get_clock().now().to_msg().sec
         prevel_R.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
         prevel_L.header.stamp.sec = self.get_clock().now().to_msg().sec

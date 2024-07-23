@@ -23,7 +23,7 @@ class CameraNode(Node):
         transform_stamped.transform.rotation.w = 0.0
         broadcaster = StaticTransformBroadcaster(self)
         broadcaster.sendTransform(transform_stamped)
-        self.publisher = self.create_publisher(Image, '/image', 10)
+        self.publisher = self.create_publisher(Image, '/image/data', 10)
         self.bridge = cv_bridge.CvBridge()
         self.camera = cv2.VideoCapture(0)
         timer_period = 0.025  # seconds
