@@ -59,11 +59,11 @@ def generate_launch_description():
         namespace='yolov10',                 
         #remappings=[('chatter', 'chatter_app1')]    
     )
-    yolov10_node = Node(
-        package='yolov10',
-        executable='yolov10_node',
-        name='yolov10',
-        namespace='yolov10',                 
+    motor_node = Node(
+        package='motor',
+        executable='motor_node',
+        name='motor',
+        namespace='motor',                 
         #remappings=[('chatter', 'chatter_app1')]    
     )
     robot_state_publisher_node = Node(
@@ -100,6 +100,12 @@ def generate_launch_description():
     return LaunchDescription([
         gui_arg,
         robot_state_publisher_node,
+        gnss_node,
+        bme280_node,
+        bno055_node,
+        camera_node,
+        yolov10_node,
+        motor_node,
         #joint_state_publisher_node,
         #joint_state_publisher_gui_node,
         rviz_node
