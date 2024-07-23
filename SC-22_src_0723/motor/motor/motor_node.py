@@ -23,6 +23,8 @@ class MotorNode(Node):
         self.motor_L.velocity_control(vel_L.data)
         prevel_R = JointState()
         prevel_L = JointState()
+        prevel_R.header.frame_id = "Rwheel_link"
+        prevel_L.header.frame_id = "Lwheel_link"
         prevel_R.header.frame_id = "r_joint"
         prevel_L.header.frame_id = "l_joint"
         prevel_R.header.stamp.sec = self.get_clock().now().to_msg().sec
