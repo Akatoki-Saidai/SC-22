@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import IMU,MagneticField,Temperature
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
-from geometry_msgs.msg import TransformStamped,Vector3
+from geometry_msgs.msg import TransformStamped,Vector3,PoseStamped
 from bno055 import BNO055
 import time
 class Bno055Node(Node):
@@ -15,7 +15,7 @@ class Bno055Node(Node):
             exit()
         time.sleep(1)
         self.bno.setExternalCrystalUse(True)
-
+        """
         transform_stamped = TransformStamped()
         transform_stamped.header.stamp = self.get_clock().now().to_msg()
         transform_stamped.header.frame_id = 'base_link'
@@ -29,15 +29,18 @@ class Bno055Node(Node):
         transform_stamped.transform.rotation.w = 0.0
         broadcaster = StaticTransformBroadcaster(self)
         broadcaster.sendTransform(transform_stamped)
+        """
         self.publisher_imu = self.create_publisher(IMU, '/quat', 10)
         self.publisher_mag = self.create_publisher(MagneticField, '/mag', 10)
         self.publisher_ang = self.create_publisher(Vector3,'/vec3',10)
         self.publisher_temp = self.create_publisher(Temperature,'/temp',10)
+        self.publisher_pose = self.create_publisher(PoseStamped,'/pose',10)
         timer_period = 0.025  # seconds
         self.timer = self.create_timer(timer_period, self.IMU_callback)        
         
     def IMU_callback(self):
         # データ取得
+        msg_pose = PoseStamped()
         msg_imu = IMU()
         msg_mag = MagneticField()
         msg_ang = Vector3()
@@ -53,16 +56,16 @@ class Bno055Node(Node):
         #gx,gy,gz = self.bno.getVector(BNO055.VECTOR_GRAVITY)   
         msg_imu.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_imu.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_imu.header.frame_id = "imu_link"
+        msg_imu.header.frame_id = "base_link"
         msg_mag.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_mag.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_mag.header.frame_id = "imu_link"
+        msg_mag.header.frame_id = "base_link"
         msg_tmp.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_tmp.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_tmp.header.frame_id = "imu_link"
+        msg_tmp.header.frame_id = "base_link"
         msg_ang.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_ang.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_ang.header.frame_id = "imu_link"
+        msg_ang.header.frame_id = "base_link"
 
         msg_imu.orientation.x = qx
         msg_imu.orientation.y = qy
@@ -84,6 +87,12 @@ class Bno055Node(Node):
         msg_tmp.temperature = temp_c
         self.publisher_temp.publish(msg_tmp)
         
+        msg_pose.header.frame_id = 'base_link'
+        msg_pose.pose.orientation.x = qx
+        msg_pose.pose.orientation.y = qy
+        msg_pose.pose.orientation.z = qz
+        msg_pose.pose.orientation.w = qw
+        self.publisher_pose.publish(msg_pose)
         msg_ang.x = roll
         msg_ang.y = pitch
         msg_ang.z = heading

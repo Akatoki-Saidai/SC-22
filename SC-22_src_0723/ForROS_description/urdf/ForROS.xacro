@@ -1,0 +1,193 @@
+<?xml version="1.0" ?>
+<robot name="ForROS" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find ForROS_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find ForROS_description)/urdf/ForROS.trans" />
+<xacro:include filename="$(find ForROS_description)/urdf/ForROS.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.00049117830066263 -0.009780351666287004 0.07118629641241767" rpy="0 0 0"/>
+    <mass value="0.25016474153306034"/>
+    <inertia ixx="0.000333" iyy="0.000517" izz="0.000726" ixy="-5e-06" iyz="-4e-05" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="RaspberryPi_1">
+  <inertial>
+    <origin xyz="0.000549946651029417 -0.023988893579614225 0.005680415420320897" rpy="0 0 0"/>
+    <mass value="0.16657879817354218"/>
+    <inertia ixx="4.7e-05" iyy="0.000108" izz="0.000146" ixy="-2e-06" iyz="1e-06" ixz="1.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.019 -0.0045 -0.098205" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/RaspberryPi_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.019 -0.0045 -0.098205" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/RaspberryPi_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Camera_link_1">
+  <inertial>
+    <origin xyz="-0.01234464717368007 0.0007909573025063274 -0.010732269549067155" rpy="0 0 0"/>
+    <mass value="0.009739005858820688"/>
+    <inertia ixx="0.0" iyy="1e-06" izz="0.0" ixy="-0.0" iyz="-0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.01243 -0.043715 -0.081725" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Camera_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.01243 -0.043715 -0.081725" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Camera_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Battery_v1_1_1">
+  <inertial>
+    <origin xyz="-0.036499999999999894 8.326672684688674e-17 0.0" rpy="0 0 0"/>
+    <mass value="0.34096475"/>
+    <inertia ixx="4.3e-05" iyy="0.000186" izz="0.00016" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0365 0.037 -0.075505" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Battery_v1_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0365 0.037 -0.075505" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Battery_v1_1_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Lidar_link_1">
+  <inertial>
+    <origin xyz="-0.005110778358159219 -0.00037745206548664076 0.014726243086830501" rpy="0 0 0"/>
+    <mass value="0.0410253525704472"/>
+    <inertia ixx="3e-06" iyy="3e-06" izz="3e-06" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0 -0.03 -0.083805" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Lidar_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0 -0.03 -0.083805" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Lidar_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Rwheel_link_1">
+  <inertial>
+    <origin xyz="0.009999999046325828 -4.0829913766993425e-16 -7.216449660063518e-16" rpy="0 0 0"/>
+    <mass value="2.628422918403861"/>
+    <inertia ixx="0.007003" iyy="0.003589" izz="0.003589" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.0902 0.0 -0.073005" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Rwheel_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.0902 0.0 -0.073005" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Rwheel_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="Lwheel_link_1">
+  <inertial>
+    <origin xyz="-0.00999999904632548 -2.4446522753376446e-16 -4.3021142204224816e-16" rpy="0 0 0"/>
+    <mass value="2.628422918403913"/>
+    <inertia ixx="0.007003" iyy="0.003589" izz="0.003589" ixy="-0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.0902 -0.0 -0.073005" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Lwheel_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.0902 -0.0 -0.073005" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find ForROS_description)/meshes/Lwheel_link_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Rigid_Pi" type="fixed">
+  <origin xyz="-0.019 0.0045 0.098205" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="RaspberryPi_1"/>
+</joint>
+
+<joint name="Rigid_Camera" type="fixed">
+  <origin xyz="0.01243 0.043715 0.081725" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Camera_link_1"/>
+</joint>
+
+<joint name="Rigid_Battery" type="fixed">
+  <origin xyz="0.0365 -0.037 0.075505" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Battery_v1_1_1"/>
+</joint>
+
+<joint name="lidar_joint" type="continuous">
+  <origin xyz="0.0 0.03 0.083805" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Lidar_link_1"/>
+  <axis xyz="0.0 -0.0 -1.0"/>
+</joint>
+
+<joint name="r_joint" type="continuous">
+  <origin xyz="0.0902 0.0 0.073005" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Rwheel_link_1"/>
+  <axis xyz="1.0 -0.0 -0.0"/>
+</joint>
+
+<joint name="l_joint" type="continuous">
+  <origin xyz="-0.0902 0.0 0.073005" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="Lwheel_link_1"/>
+  <axis xyz="-1.0 0.0 0.0"/>
+</joint>
+
+</robot>

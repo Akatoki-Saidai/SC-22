@@ -11,6 +11,7 @@ class GNSSNode(Node):
         super().__init__('gnss_node')
         
         self.uart = serial.Serial('/dev/ttyAMA0',9600,timeout=0.5)
+        """
         transform_stamped = TransformStamped()
         transform_stamped.header.stamp = self.get_clock().now().to_msg()
         transform_stamped.header.frame_id = 'base_link'
@@ -24,6 +25,7 @@ class GNSSNode(Node):
         transform_stamped.transform.rotation.w = 0.0
         broadcaster = StaticTransformBroadcaster(self)
         broadcaster.sendTransform(transform_stamped)
+        """
         self.publisher_gnss = self.create_publisher(NavSatFix, '/gnss', 10)
         
         timer_period = 0.025  # seconds
@@ -35,7 +37,7 @@ class GNSSNode(Node):
 
         msg_gnss.header.stamp.sec = self.get_clock().now().to_msg().sec
         msg_gnss.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-        msg_gnss.header.frame_id = "gnss"
+        msg_gnss.header.frame_id = "base_link"
         gnss_data = self.getData()
         msg_gnss.latitude = gnss_data.latitude[0]
         msg_gnss.longitude = gnss_data.longitude[0]
