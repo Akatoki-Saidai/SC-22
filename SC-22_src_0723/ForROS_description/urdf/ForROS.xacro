@@ -26,7 +26,7 @@
   </collision>
 </link>
 
-<link name="RaspberryPi_1">
+<link name="RaspberryPi">
   <inertial>
     <origin xyz="0.000549946651029417 -0.023988893579614225 0.005680415420320897" rpy="0 0 0"/>
     <mass value="0.16657879817354218"/>
@@ -47,7 +47,7 @@
   </collision>
 </link>
 
-<link name="Camera_link_1">
+<link name="Camera_link">
   <inertial>
     <origin xyz="-0.01234464717368007 0.0007909573025063274 -0.010732269549067155" rpy="0 0 0"/>
     <mass value="0.009739005858820688"/>
@@ -68,7 +68,7 @@
   </collision>
 </link>
 
-<link name="Battery_v1_1_1">
+<link name="Battery">
   <inertial>
     <origin xyz="-0.036499999999999894 8.326672684688674e-17 0.0" rpy="0 0 0"/>
     <mass value="0.34096475"/>
@@ -89,7 +89,7 @@
   </collision>
 </link>
 
-<link name="Lidar_link_1">
+<link name="Lidar_link">
   <inertial>
     <origin xyz="-0.005110778358159219 -0.00037745206548664076 0.014726243086830501" rpy="0 0 0"/>
     <mass value="0.0410253525704472"/>
@@ -110,7 +110,7 @@
   </collision>
 </link>
 
-<link name="Rwheel_link_1">
+<link name="Rwheel_link">
   <inertial>
     <origin xyz="0.009999999046325828 -4.0829913766993425e-16 -7.216449660063518e-16" rpy="0 0 0"/>
     <mass value="2.628422918403861"/>
@@ -131,7 +131,7 @@
   </collision>
 </link>
 
-<link name="Lwheel_link_1">
+<link name="Lwheel_link">
   <inertial>
     <origin xyz="-0.00999999904632548 -2.4446522753376446e-16 -4.3021142204224816e-16" rpy="0 0 0"/>
     <mass value="2.628422918403913"/>
@@ -155,39 +155,39 @@
 <joint name="Rigid_Pi" type="fixed">
   <origin xyz="-0.019 0.0045 0.0252" rpy="0 0 0"/>
   <parent link="base_link"/>
-  <child link="RaspberryPi_1"/>
+  <child link="RaspberryPi"/>
 </joint>
 
 <joint name="Rigid_Camera" type="fixed">
   <origin xyz="0.01243 0.043715 0.00872" rpy="0 0 0"/>
   <parent link="base_link"/>
-  <child link="Camera_link_1"/>
+  <child link="Camera_link"/>
 </joint>
 
 <joint name="Rigid_Battery" type="fixed">
   <origin xyz="0.0365 -0.037 0.0025" rpy="0 0 0"/>
   <parent link="base_link"/>
-  <child link="Battery_v1_1_1"/>
+  <child link="Battery"/>
 </joint>
 
 <joint name="lidar_joint" type="continuous">
   <origin xyz="0.0 0.03 0.0108" rpy="0 0 0"/>
   <parent link="base_link"/>
-  <child link="Lidar_link_1"/>
+  <child link="Lidar_link"/>
   <axis xyz="0.0 -0.0 -1.0"/>
 </joint>
 
 <joint name="r_joint" type="continuous">
   <origin xyz="0.0902 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
-  <child link="Rwheel_link_1"/>
+  <child link="Rwheel_link"/>
   <axis xyz="1.0 -0.0 -0.0"/>
 </joint>
 
 <joint name="l_joint" type="continuous">
   <origin xyz="-0.0902 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
-  <child link="Lwheel_link_1"/>
+  <child link="Lwheel_link"/>
   <axis xyz="-1.0 0.0 0.0"/>
 </joint>
 
