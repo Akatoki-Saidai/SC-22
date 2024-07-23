@@ -4,6 +4,7 @@
 <xacro:include filename="$(find ForROS_description)/urdf/materials.xacro" />
 <xacro:include filename="$(find ForROS_description)/urdf/ForROS.trans" />
 <xacro:include filename="$(find ForROS_description)/urdf/ForROS.gazebo" />
+<link name="base_footprint"/>
 <link name="base_link">
   <inertial>
     <origin xyz="0.00049117830066263 -0.009780351666287004 0.07118629641241767" rpy="0 0 0"/>
@@ -11,7 +12,7 @@
     <inertia ixx="0.000333" iyy="0.000517" izz="0.000726" ixy="-5e-06" iyz="-4e-05" ixz="-0.0"/>
   </inertial>
   <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 -0.073005" rpy="0 0 0"/>
     <geometry>
       <mesh filename="file://$(find ForROS_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -152,42 +153,48 @@
 </link>
 
 <joint name="Rigid_Pi" type="fixed">
-  <origin xyz="-0.019 0.0045 0.098205" rpy="0 0 0"/>
+  <origin xyz="-0.019 0.0045 0.0252" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="RaspberryPi_1"/>
 </joint>
 
 <joint name="Rigid_Camera" type="fixed">
-  <origin xyz="0.01243 0.043715 0.081725" rpy="0 0 0"/>
+  <origin xyz="0.01243 0.043715 0.00872" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Camera_link_1"/>
 </joint>
 
 <joint name="Rigid_Battery" type="fixed">
-  <origin xyz="0.0365 -0.037 0.075505" rpy="0 0 0"/>
+  <origin xyz="0.0365 -0.037 0.0025" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Battery_v1_1_1"/>
 </joint>
 
 <joint name="lidar_joint" type="continuous">
-  <origin xyz="0.0 0.03 0.083805" rpy="0 0 0"/>
+  <origin xyz="0.0 0.03 0.0108" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Lidar_link_1"/>
   <axis xyz="0.0 -0.0 -1.0"/>
 </joint>
 
 <joint name="r_joint" type="continuous">
-  <origin xyz="0.0902 0.0 0.073005" rpy="0 0 0"/>
+  <origin xyz="0.0902 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Rwheel_link_1"/>
   <axis xyz="1.0 -0.0 -0.0"/>
 </joint>
 
 <joint name="l_joint" type="continuous">
-  <origin xyz="-0.0902 0.0 0.073005" rpy="0 0 0"/>
+  <origin xyz="-0.0902 0.0 0.0" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="Lwheel_link_1"/>
   <axis xyz="-1.0 0.0 0.0"/>
+</joint>
+
+<joint name="base_joint" type="fixed">
+  <origin xyz="0 0 0.073005"/>
+  <parent link="base_footprint"/>
+  <child link="base_link"/>
 </joint>
 
 </robot>
