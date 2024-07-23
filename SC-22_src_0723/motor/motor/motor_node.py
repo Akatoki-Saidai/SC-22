@@ -25,8 +25,8 @@ class MotorNode(Node):
         prevel_L = JointState()
         prevel_R.header.frame_id = "Rwheel_link"
         prevel_L.header.frame_id = "Lwheel_link"
-        prevel_R.header.frame_id = "r_joint"
-        prevel_L.header.frame_id = "l_joint"
+        prevel_R.header.name = "r_joint"
+        prevel_L.header.name = "l_joint"
         prevel_R.header.stamp.sec = self.get_clock().now().to_msg().sec
         prevel_R.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
         prevel_L.header.stamp.sec = self.get_clock().now().to_msg().sec
