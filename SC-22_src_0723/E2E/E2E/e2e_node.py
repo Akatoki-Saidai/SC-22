@@ -124,9 +124,9 @@ def main():
     node = Node("state_machine")
     sm = smach.StateMachine(outcomes=['finishphase'])
     with sm:
-        smach.StateMachine.add('fallingphase',FallingPhase(),transitions={'longphase : LongPhase','shortphase : ShortPhase'})
-        smach.StateMachine.add('longphase',LongPhase(),transitions={'shortphase : ShortPhase'})
-        smach.StateMachine.add('shortphase',ShortPhase(),transitions={'finishphase : FinishPhase'})
+        smach.StateMachine.add('fallingphase',FallingPhase(),transitions={'longphase' : 'LongPhase','shortphase' : 'ShortPhase'})
+        smach.StateMachine.add('longphase',LongPhase(),transitions={'shortphase' : 'ShortPhase'})
+        smach.StateMachine.add('shortphase',ShortPhase(),transitions={'finishphase' : 'FinishPhase'})
     outcome = sm.execute()
 
 if __name__ == "__main__":
