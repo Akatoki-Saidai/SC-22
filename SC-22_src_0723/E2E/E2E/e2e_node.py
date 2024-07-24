@@ -8,8 +8,8 @@ import smach
 class FallingPhase(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['longphase'])
-        self.subscriber_fluid = Subscriber(self,FluidPressure,'/atomsphere')
-        self.subscriber_imu = Subscriber(self,Imu,'/imu')
+        self.subscriber_fluid = Subscriber(self,FluidPressure,'/pressure/data')
+        self.subscriber_imu = Subscriber(self,Imu,'/imu/data')
         # ApproximateTimeSynchronizer with queue size 10 and 0.1 seconds slop
         self.ts = ApproximateTimeSynchronizer([self.subscriber_fluid, self.subscriber_imu], 10, 0.1)
         self.ts.registerCallback(self.execute)
@@ -22,8 +22,8 @@ class FallingPhase(smach.State):
 class LongPhase(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['shortphase'])
-        self.sub_north_degree = Subscriber(self,Float32,'/mag')
-        self.sub_gps = Subscriber(self,NavSatFix,'/gps')
+        self.sub_north_degree = Subscriber(self,Float32,'/mag/data')
+        self.sub_gps = Subscriber(self,NavSatFix,'/gps/fix')
         # ApproximateTimeSynchronizer with queue size 10 and 0.1 seconds slop
         self.ts = ApproximateTimeSynchronizer([self.sub_north_degree, self.sub_gps], 10, 0.1)
         self.ts.registerCallback(self.degree_from_front_to_goal)
@@ -31,9 +31,9 @@ class LongPhase(smach.State):
         self.publisher_north_degree = self.create_publisher(Float32, '/north_degree', 10)
         self.publisher_goal_degree = self.create_publisher(Float32, '/goal_degree', 10)
         self.publisher_goal_distance = self.create_publisher(Float32, '/goal_distance', 10)
-        self.subscriber_north_degree = self.create_subscription(MagneticField,'/mag',self.calculate_north_degree,10)
-        self.subscriber_goal_degree = self.create_subscription(NavSatFix,'/gps',self.degree_from_front_to_goal,10)
-        self.subscriber_goal_distance = self.create_subscription(NavSatFix,'/gps',self.distance,10)
+        self.subscriber_north_degree = self.create_subscription(MagneticField,'/mag/data',self.calculate_north_degree,10)
+        self.subscriber_goal_degree = self.create_subscription(NavSatFix,'/gps/fix',self.degree_from_front_to_goal,10)
+        self.subscriber_goal_distance = self.create_subscription(NavSatFix,'/gps/fix',self.distance,10)
 
         self.sub_goal_degree = Subscriber(self,Float32,'/goal_degree')
         self.sub_goal_distance = Subscriber(self,Float32,'/goal_distance')
