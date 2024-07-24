@@ -113,10 +113,10 @@ class ShortPhase(smach.State):
             a
         elif 101 < msg.data < 200:
             pass
+        if goal:
+            self.get_logger().info("Finish")
+            return 'finishphase'
 
-class FinishPhase(smach.State):
-    def __init__(self):
-        self.get_logger().info("Finish")
 
         
 def main():
