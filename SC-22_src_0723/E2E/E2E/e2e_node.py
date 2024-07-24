@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from sensor_msgs.msg import Image,FluidPressure,IMU,MagneticField,Temperature,NavSatFix
+from sensor_msgs.msg import Image,FluidPressure,Imu,MagneticField,Temperature,NavSatFix
 from std_msgs.msg import Int16,Float32
 from message_filters import ApproximateTimeSynchronizer, Subscriber
 from math import *
@@ -9,7 +9,7 @@ class FallingPhase(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['longphase'])
         self.subscriber_fluid = Subscriber(self,FluidPressure,'/atomsphere')
-        self.subscriber_imu = Subscriber(self,IMU,'/imu')
+        self.subscriber_imu = Subscriber(self,Imu,'/imu')
         # ApproximateTimeSynchronizer with queue size 10 and 0.1 seconds slop
         self.ts = ApproximateTimeSynchronizer([self.subscriber_fluid, self.subscriber_imu], 10, 0.1)
         self.ts.registerCallback(self.execute)
@@ -122,11 +122,11 @@ class FinishPhase(smach.State):
 def main():
     rclpy.init()
     node = Node("state_machine")
-    sm = smach.StateMachine(outcomes=['finishphase'])
+    sm = smach.StateMachine(outcomes=['goal'])
     with sm:
         smach.StateMachine.add('fallingphase',FallingPhase(),transitions={'longphase' : 'LongPhase','shortphase' : 'ShortPhase'})
         smach.StateMachine.add('longphase',LongPhase(),transitions={'shortphase' : 'ShortPhase'})
-        smach.StateMachine.add('shortphase',ShortPhase(),transitions={'finishphase' : 'FinishPhase'})
+        smach.StateMachine.add('shortphase',ShortPhase(),transitions={'finishphase' : 'goal'})
     outcome = sm.execute()
 
 if __name__ == "__main__":
