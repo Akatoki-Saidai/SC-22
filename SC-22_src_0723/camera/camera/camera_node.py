@@ -5,11 +5,12 @@ import cv2
 import cv_bridge
 from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 from geometry_msgs.msg import TransformStamped
-
+from picamera2 import Picamera2
 class CameraNode(Node):
 
     def __init__(self):
         super().__init__('camera_node')
+        """
         transform_stamped = TransformStamped()
         transform_stamped.header.stamp = self.get_clock().now().to_msg()
         transform_stamped.header.frame_id = 'map'
@@ -23,23 +24,28 @@ class CameraNode(Node):
         transform_stamped.transform.rotation.w = 0.0
         broadcaster = StaticTransformBroadcaster(self)
         broadcaster.sendTransform(transform_stamped)
+        """
+        self.picam2 = Picamera2()
+        self.picam2.preview_configuration.main.size = (1280,720)
+        self.picam2.preview_configuration.main.format = "RGB888"
+        self.picam2.preview_configuration.align()
+        self.picam2.configure("preview")
+        self.picam2.start()
         self.publisher = self.create_publisher(Image, '/image/data', 10)
         self.bridge = cv_bridge.CvBridge()
-        self.camera = cv2.VideoCapture(0)
         timer_period = 0.025  # seconds
         self.timer = self.create_timer(timer_period, self.image_callback)
 
     def image_callback(self):
         # OpenCV の様式に変更
-        ret,frame = self.camera.read()
-        if ret == True:
+        frame = self.picam2.capture_array()
         # ROSの様式に変換
-            msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
-            msg.header.stamp.sec = self.get_clock().now().to_msg().sec
-            msg.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
-            msg.header.frame_id = "camera"
-            # トピックとして配信する
-            self.publisher.publish(msg)
+        msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
+        msg.header.stamp.sec = self.get_clock().now().to_msg().sec
+        msg.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
+        msg.header.frame_id = "camera"
+        # トピックとして配信する
+        self.publisher.publish(msg)
 
 def main(args=None):
     rclpy.init(args=args)

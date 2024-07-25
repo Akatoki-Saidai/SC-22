@@ -15,7 +15,7 @@ class Yolov10Node(Node):
         self.publisher = self.create_publisher(Image, '/image_annotated/data', 10)
         self.publisher_xyxy = self.create_publisher(Int16, '/cone_position/data', 10)
         self.subscriber = self.create_subscription(Image,'/image/data',self.process_yolov10,10)
-        self.model = YOLOv10("/home/konan/ros2_ws/src/yolov10/yolov10/best.pt")
+        self.model = YOLOv10("/home/sc22/ros2_ws/src/yolov10/yolov10/best.pt")
         self.bridge = cv_bridge.CvBridge()
         self.cone_position = Int16()
 
