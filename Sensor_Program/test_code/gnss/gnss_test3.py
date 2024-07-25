@@ -25,7 +25,7 @@ def main():
                         if (tm_now - tm_last) >= 10:
                             print('=' * 20)
                             print(my_gps.date_string(), tm[0], tm[1], int(tm[2]))
-                            print("latitude:", my_gps.latitude[0], ", longitude:", my_gps.longitude[0])
+                            print("latitude:", float(my_gps.latitude[0]), ", longitude:", float(my_gps.longitude[0]))
 
 if __name__ == "__main__":
     print("B")
