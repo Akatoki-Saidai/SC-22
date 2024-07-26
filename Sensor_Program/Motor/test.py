@@ -40,7 +40,7 @@ class DynamixelMotor():
             self.DXL_MINIMUM_POSITION_VALUE  = 0         # Refer to the Minimum Position Limit of product eManual
             self.DXL_MAXIMUM_POSITION_VALUE  = 4095 
             self.DXL_MINIMUM_VELOCITY_VALUE  = 0
-            self.DXL_MAXIMUM_VELOCITY_VALUE  = 1000
+            self.DXL_MAXIMUM_VELOCITY_VALUE  = 300   
                 # Refer to the Maximum Position Limit of product eManual
             self.BAUDRATE                    = 57600
         elif self.MY_DXL == 'PRO_SERIES':
@@ -120,14 +120,39 @@ class DynamixelMotor():
             print("%s" % self.packetHandler.getRxPacketError(dxl_error))
         else:
             print("Dynamixel has been successfully connected")
-    def velocity_control(self):
+    def position_control(self,value):
         print("Press any key to continue! (or press ESC to quit!)")
 
         # Write goal position
         if (self.MY_DXL == 'XL320'): # XL320 uses 2 byte Position Data, Check the size of data in your DYNAMIXEL's control table
-            dxl_comm_result, dxl_error = self.packetHandler.write2ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_GOAL_VELOCITY, self.dxl_goal_velocity)
+            dxl_comm_result, dxl_error = self.packetHandler.write2ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_GOAL_POSITION, int(value/0.088))
         else:
-            dxl_comm_result, dxl_error = self.packetHandler.write4ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_GOAL_VELOCITY, self.dxl_goal_velocity)
+            dxl_comm_result, dxl_error = self.packetHandler.write4ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_GOAL_POSITION,int(value/0.088))
+        if dxl_comm_result != COMM_SUCCESS:
+            print("%s" % self.packetHandler.getTxRxResult(dxl_comm_result))
+        elif dxl_error != 0:
+            print("%s" % self.packetHandler.getRxPacketError(dxl_error))
+    def get_prepos(self):
+        # Read present position
+        if (self.MY_DXL == 'XL320'): # XL320 uses 2 byte Position Data, Check the size of data in your DYNAMIXEL's control table
+            self.dxl_present_position, dxl_comm_result, dxl_error = self.packetHandler.read2ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_PRESENT_POSITION)
+        else:
+            self.dxl_present_position, dxl_comm_result, dxl_error = self.packetHandler.read4ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_PRESENT_POSITION)
+        if dxl_comm_result != COMM_SUCCESS:
+            print("%s" % self.packetHandler.getTxRxResult(dxl_comm_result))
+        elif dxl_error != 0:
+            print("%s" % self.packetHandler.getRxPacketError(dxl_error))
+
+        print("[ID:%03d] PresPos:%03d deg" % (self.DXL_ID,0.088*self.dxl_present_position))
+
+    def velocity_control(self,value):
+        print("Press any key to continue! (or press ESC to quit!)")
+
+        # Write goal position
+        if (self.MY_DXL == 'XL320'): # XL320 uses 2 byte Position Data, Check the size of data in your DYNAMIXEL's control table
+            dxl_comm_result, dxl_error = self.packetHandler.write2ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_GOAL_VELOCITY, int(value/0.229))
+        else:
+            dxl_comm_result, dxl_error = self.packetHandler.write4ByteTxRx(self.portHandler, self.DXL_ID, self.ADDR_GOAL_VELOCITY, int(value/0.229))
         if dxl_comm_result != COMM_SUCCESS:
             print("%s" % self.packetHandler.getTxRxResult(dxl_comm_result))
         elif dxl_error != 0:
@@ -143,7 +168,7 @@ class DynamixelMotor():
         elif dxl_error != 0:
             print("%s" % self.packetHandler.getRxPacketError(dxl_error))
 
-        print("[ID:%03d] GoalVel:%03d  PresVel:%03d" % (self.DXL_ID, self.dxl_goal_velocity, self.dxl_present_position))
+        print("[ID:%03d] GoalVel:%03d  PresVel:%03d rpm" % (self.DXL_ID,0.229*self.dxl_goal_velocity, 0.229*self.dxl_present_position))
 
     def finish_control(self):
         # Disable Dynamixel Torque
@@ -157,10 +182,7 @@ class DynamixelMotor():
         self.portHandler.closePort()
 
 if __name__ == '__main__':
-    #c1 = DynamixelMotor(id_num=1)
-    #c1.velocity_control()
-    c2 = DynamixelMotor(id_num=1)
-    c2.velocity_control()
+    c1 = DynamixelMotor(id_num=1)
+    c1.position_control(350)
     while True:
-        #c1.get_prevel()
-        c2.get_prevel()
+        c1.get_prepos()

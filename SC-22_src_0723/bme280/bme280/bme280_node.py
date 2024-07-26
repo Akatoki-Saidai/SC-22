@@ -177,7 +177,7 @@ class Bme280Node(Node):
         msg.header.stamp.nanosec = self.get_clock().now().to_msg().nanosec
         msg.header.frame_id = "base_link"
         data_all = self.bme.readData()
-        msg.fluid_pressure = data_all[1]
+        msg.fluid_pressure = float(data_all[1])
         self.publisher.publish(msg)
 def main(args=None):
     rclpy.init(args=args)

@@ -83,6 +83,7 @@
     <mu2>0.2</mu2>
     <self_collide>true</self_collide>
   </gazebo>
+  <link name="map"/>
   <link name="base_footprint"/>
   <link name="base_link">
     <inertial>
@@ -261,5 +262,10 @@
     <origin xyz="0 0 0.073005"/>
     <parent link="base_footprint"/>
     <child link="base_link"/>
+  </joint>
+  <joint name="map_joint" type="fixed">
+    <origin xyz="0 0 0"/>
+    <parent link="map"/>
+    <child link="base_footprint"/>
   </joint>
 </robot>
